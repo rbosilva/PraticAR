@@ -1,15 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.0
--- https://www.phpmyadmin.net/
+-- version 4.5.2
+-- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Tempo de geração: 31/10/2017 às 03:57
--- Versão do servidor: 10.1.25-MariaDB
--- Versão do PHP: 5.6.31
+-- Generation Time: 31-Out-2017 às 20:44
+-- Versão do servidor: 10.1.13-MariaDB
+-- PHP Version: 5.6.20
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -19,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Banco de dados: `aluno_praticar`
+-- Database: `aluno_praticar`
 --
 CREATE DATABASE IF NOT EXISTS `aluno_praticar` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE `aluno_praticar`;
@@ -27,7 +25,7 @@ USE `aluno_praticar`;
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `exercicios`
+-- Estrutura da tabela `exercicios`
 --
 
 CREATE TABLE `exercicios` (
@@ -39,19 +37,19 @@ CREATE TABLE `exercicios` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Fazendo dump de dados para tabela `exercicios`
+-- Extraindo dados da tabela `exercicios`
 --
 
 INSERT INTO `exercicios` (`id`, `lista`, `descricao`, `resposta`, `resposta_sql`) VALUES
-(111, 4, 'Faça uma consulta que retorne todos os dados da tabela \"clientes\".', 'clientes', 'SELECT * FROM `clientes`'),
+(111, 4, 'Faça uma consulta que retorne todos os dados da tabela "clientes".', 'clientes', 'SELECT * FROM `clientes`'),
 (112, 4, 'Faça uma consulta que retorne todos os clientes que tenham feito compras.', 'clientes ⨝ (clientes.id_cliente = compras.id_cliente) compras', 'SELECT * FROM `clientes` INNER JOIN `compras` ON `clientes`.`id_cliente` = `compras`.`id_cliente`'),
-(113, 4, 'Faça uma consulta que retorne o nome de todos os carros comprados juntamente com o nome do cliente que comprou. A consulta deve retornar duas colunas chamadas \"cliente\" e \"carro\", cada uma contendo o nome do cliente e do carro, respectivamente.', 'ρ [cliente, carro] (\n    π clientes.nome , carros.nome (\n        σ clientes.id_cliente = compras.id_cliente ^ carros.id_carro = compras.id_carro (\n            clientes X compras X carros\n        )\n    )\n)', 'SELECT `clientes`.`nome` AS `cliente`,`carros`.`nome` AS `carro` FROM `clientes`,`compras`,`carros` WHERE `clientes`.`id_cliente` = `compras`.`id_cliente` AND `carros`.`id_carro` = `compras`.`id_carro`'),
+(113, 4, 'Faça uma consulta que retorne o nome de todos os carros comprados juntamente com o nome do cliente que comprou. A consulta deve retornar duas colunas chamadas "cliente" e "carro", cada uma contendo o nome do cliente e do carro, respectivamente.', 'ρ [cliente, carro] (\n    π clientes.nome , carros.nome (\n        σ clientes.id_cliente = compras.id_cliente ^ carros.id_carro = compras.id_carro (\n            clientes X compras X carros\n        )\n    )\n)', 'SELECT `clientes`.`nome` AS `cliente`,`carros`.`nome` AS `carro` FROM `clientes`,`compras`,`carros` WHERE `clientes`.`id_cliente` = `compras`.`id_cliente` AND `carros`.`id_carro` = `compras`.`id_carro`'),
 (119, 9, 'Faça uma consulta que retorne todos os carros com id maior que 10.', 'σ id_carro > 10 (carros)', 'SELECT * FROM `carros` WHERE `id_carro` > 10');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `listas`
+-- Estrutura da tabela `listas`
 --
 
 CREATE TABLE `listas` (
@@ -63,7 +61,7 @@ CREATE TABLE `listas` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Fazendo dump de dados para tabela `listas`
+-- Extraindo dados da tabela `listas`
 --
 
 INSERT INTO `listas` (`id`, `titulo`, `turma`, `data_prazo`, `hora_prazo`) VALUES
@@ -73,7 +71,7 @@ INSERT INTO `listas` (`id`, `titulo`, `turma`, `data_prazo`, `hora_prazo`) VALUE
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `respostas`
+-- Estrutura da tabela `respostas`
 --
 
 CREATE TABLE `respostas` (
@@ -87,18 +85,19 @@ CREATE TABLE `respostas` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Fazendo dump de dados para tabela `respostas`
+-- Extraindo dados da tabela `respostas`
 --
 
 INSERT INTO `respostas` (`id`, `exercicio`, `resposta`, `resposta_sql`, `tentativas`, `data`, `hora`) VALUES
-(20, 111, 'clientes', 'SELECT * FROM `clientes`', 1, '2017-10-30', '23:51:00'),
-(21, 112, 'clientes ⨝ (clientes.id_cliente = compras.id_cliente) compras', 'SELECT * FROM `clientes` INNER JOIN `compras` ON `clientes`.`id_cliente` = `compras`.`id_cliente`', 1, '2017-10-30', '23:51:00'),
-(22, 113, 'ρ [cliente, carro] (π clientes.nome, carros.nome (σ carros.id_carro = compras.id_carro ^ compras.id_cliente = clientes.id_cliente (carros X compras X clientes)))', 'SELECT `clientes`.`nome` AS `cliente`,`carros`.`nome` AS `carro` FROM `carros`,`compras`,`clientes` WHERE `carros`.`id_carro` = `compras`.`id_carro` AND `compras`.`id_cliente` = `clientes`.`id_cliente`', 1, '2017-10-30', '23:51:00');
+(29, 111, 'clientes', 'SELECT * FROM `clientes`', 1, '2017-10-31', '13:30:00'),
+(30, 112, 'clientes ⨝ (clientes.id_cliente = compras.id_cliente) compras', 'SELECT * FROM `clientes` INNER JOIN `compras` ON `clientes`.`id_cliente` = `compras`.`id_cliente`', 1, '2017-10-31', '13:30:00'),
+(31, 113, 'ρ [cliente, carro] (π clientes.nome, carros.nome (σ carros.id_carro = compras.id_carro ^ compras.id_cliente = clientes.id_cliente (carros X compras X clientes)))', 'SELECT `clientes`.`nome` AS `cliente`,`carros`.`nome` AS `carro` FROM `carros`,`compras`,`clientes` WHERE `carros`.`id_carro` = `compras`.`id_carro` AND `compras`.`id_cliente` = `clientes`.`id_cliente`', 1, '2017-10-31', '13:30:00'),
+(32, 119, 'σ id_carro > 10 (carros)', 'SELECT * FROM `carros` WHERE `id_carro` > 10', 5, '2017-10-31', '13:30:00');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `turmas`
+-- Estrutura da tabela `turmas`
 --
 
 CREATE TABLE `turmas` (
@@ -108,7 +107,7 @@ CREATE TABLE `turmas` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Fazendo dump de dados para tabela `turmas`
+-- Extraindo dados da tabela `turmas`
 --
 
 INSERT INTO `turmas` (`id`, `descricao`, `ativa`) VALUES
@@ -120,7 +119,7 @@ INSERT INTO `turmas` (`id`, `descricao`, `ativa`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `usuario_turma`
+-- Estrutura da tabela `usuario_turma`
 --
 
 CREATE TABLE `usuario_turma` (
@@ -130,7 +129,7 @@ CREATE TABLE `usuario_turma` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Fazendo dump de dados para tabela `usuario_turma`
+-- Extraindo dados da tabela `usuario_turma`
 --
 
 INSERT INTO `usuario_turma` (`id`, `id_usuario`, `id_turma`) VALUES
@@ -147,7 +146,7 @@ INSERT INTO `usuario_turma` (`id`, `id_usuario`, `id_turma`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `usuarios`
+-- Estrutura da tabela `usuarios`
 --
 
 CREATE TABLE `usuarios` (
@@ -161,7 +160,7 @@ CREATE TABLE `usuarios` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Fazendo dump de dados para tabela `usuarios`
+-- Extraindo dados da tabela `usuarios`
 --
 
 INSERT INTO `usuarios` (`id`, `nome`, `login`, `senha`, `tentativas`, `bloqueado`, `tipo`) VALUES
@@ -176,39 +175,39 @@ INSERT INTO `usuarios` (`id`, `nome`, `login`, `senha`, `tentativas`, `bloqueado
 (9, 'Fulano de Tal', 'fulano.de.tal', '$2a$08$OTA1NTI2NzkzNTlmNjc2YuhK48R5UmCnmj8AbH1ykiGslaj/WLhUK', 0, 0, 2);
 
 --
--- Índices de tabelas apagadas
+-- Indexes for dumped tables
 --
 
 --
--- Índices de tabela `exercicios`
+-- Indexes for table `exercicios`
 --
 ALTER TABLE `exercicios`
   ADD PRIMARY KEY (`id`),
   ADD KEY `lista` (`lista`);
 
 --
--- Índices de tabela `listas`
+-- Indexes for table `listas`
 --
 ALTER TABLE `listas`
   ADD PRIMARY KEY (`id`),
   ADD KEY `turma` (`turma`);
 
 --
--- Índices de tabela `respostas`
+-- Indexes for table `respostas`
 --
 ALTER TABLE `respostas`
   ADD PRIMARY KEY (`id`),
   ADD KEY `exercicio` (`exercicio`);
 
 --
--- Índices de tabela `turmas`
+-- Indexes for table `turmas`
 --
 ALTER TABLE `turmas`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `descricao` (`descricao`);
 
 --
--- Índices de tabela `usuario_turma`
+-- Indexes for table `usuario_turma`
 --
 ALTER TABLE `usuario_turma`
   ADD PRIMARY KEY (`id`),
@@ -216,75 +215,75 @@ ALTER TABLE `usuario_turma`
   ADD KEY `id_turma` (`id_turma`);
 
 --
--- Índices de tabela `usuarios`
+-- Indexes for table `usuarios`
 --
 ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT de tabelas apagadas
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT de tabela `exercicios`
+-- AUTO_INCREMENT for table `exercicios`
 --
 ALTER TABLE `exercicios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=121;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=127;
 --
--- AUTO_INCREMENT de tabela `listas`
+-- AUTO_INCREMENT for table `listas`
 --
 ALTER TABLE `listas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 --
--- AUTO_INCREMENT de tabela `respostas`
+-- AUTO_INCREMENT for table `respostas`
 --
 ALTER TABLE `respostas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 --
--- AUTO_INCREMENT de tabela `turmas`
+-- AUTO_INCREMENT for table `turmas`
 --
 ALTER TABLE `turmas`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
--- AUTO_INCREMENT de tabela `usuario_turma`
+-- AUTO_INCREMENT for table `usuario_turma`
 --
 ALTER TABLE `usuario_turma`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
 --
--- AUTO_INCREMENT de tabela `usuarios`
+-- AUTO_INCREMENT for table `usuarios`
 --
 ALTER TABLE `usuarios`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
--- Restrições para dumps de tabelas
+-- Constraints for dumped tables
 --
 
 --
--- Restrições para tabelas `exercicios`
+-- Limitadores para a tabela `exercicios`
 --
 ALTER TABLE `exercicios`
   ADD CONSTRAINT `exercicios_ibfk_1` FOREIGN KEY (`lista`) REFERENCES `listas` (`id`);
 
 --
--- Restrições para tabelas `listas`
+-- Limitadores para a tabela `listas`
 --
 ALTER TABLE `listas`
   ADD CONSTRAINT `listas_ibfk_1` FOREIGN KEY (`turma`) REFERENCES `turmas` (`id`);
 
 --
--- Restrições para tabelas `respostas`
+-- Limitadores para a tabela `respostas`
 --
 ALTER TABLE `respostas`
   ADD CONSTRAINT `respostas_ibfk_1` FOREIGN KEY (`exercicio`) REFERENCES `exercicios` (`id`);
 
 --
--- Restrições para tabelas `usuario_turma`
+-- Limitadores para a tabela `usuario_turma`
 --
 ALTER TABLE `usuario_turma`
   ADD CONSTRAINT `usuario_turma_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`),
   ADD CONSTRAINT `usuario_turma_ibfk_2` FOREIGN KEY (`id_turma`) REFERENCES `turmas` (`id`);
 --
--- Banco de dados: `aluno_praticar_exercicios`
+-- Database: `aluno_praticar_exercicios`
 --
 CREATE DATABASE IF NOT EXISTS `aluno_praticar_exercicios` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE `aluno_praticar_exercicios`;
@@ -292,7 +291,26 @@ USE `aluno_praticar_exercicios`;
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `carros`
+-- Estrutura da tabela `avioes`
+--
+
+CREATE TABLE `avioes` (
+  `nome` text
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `avioes`
+--
+
+INSERT INTO `avioes` (`nome`) VALUES
+('AÉROSPATIALE/BAC CONCORDE'),
+('AIRBUS A320'),
+('AIRBUS A400M GRIZZLY');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `carros`
 --
 
 CREATE TABLE `carros` (
@@ -303,7 +321,7 @@ CREATE TABLE `carros` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Fazendo dump de dados para tabela `carros`
+-- Extraindo dados da tabela `carros`
 --
 
 INSERT INTO `carros` (`id_carro`, `marca`, `nome`, `preco`) VALUES
@@ -332,7 +350,7 @@ INSERT INTO `carros` (`id_carro`, `marca`, `nome`, `preco`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `clientes`
+-- Estrutura da tabela `clientes`
 --
 
 CREATE TABLE `clientes` (
@@ -342,7 +360,7 @@ CREATE TABLE `clientes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Fazendo dump de dados para tabela `clientes`
+-- Extraindo dados da tabela `clientes`
 --
 
 INSERT INTO `clientes` (`id_cliente`, `nome`, `idade`) VALUES
@@ -360,7 +378,7 @@ INSERT INTO `clientes` (`id_cliente`, `nome`, `idade`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `compras`
+-- Estrutura da tabela `compras`
 --
 
 CREATE TABLE `compras` (
@@ -370,7 +388,7 @@ CREATE TABLE `compras` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Fazendo dump de dados para tabela `compras`
+-- Extraindo dados da tabela `compras`
 --
 
 INSERT INTO `compras` (`id`, `id_cliente`, `id_carro`) VALUES
@@ -387,8 +405,33 @@ INSERT INTO `compras` (`id`, `id_cliente`, `id_carro`) VALUES
 (11, 8, 9),
 (12, 9, 13),
 (13, 10, 14),
-(14, 10, 7);
-COMMIT;
+(14, 10, 7),
+(15, 1, 21);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `pilotos`
+--
+
+CREATE TABLE `pilotos` (
+  `nome` text,
+  `aviao` text
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `pilotos`
+--
+
+INSERT INTO `pilotos` (`nome`, `aviao`) VALUES
+('James', 'AÉROSPATIALE/BAC CONCORDE'),
+('James', 'AIRBUS A320'),
+('James', 'AIRBUS A400M GRIZZLY'),
+('William', 'AÉROSPATIALE/BAC CONCORDE'),
+('William', 'AIRBUS A320'),
+('Jack', 'AÉROSPATIALE/BAC CONCORDE'),
+('Jack', 'AIRBUS A320'),
+('Jack', 'AIRBUS A400M GRIZZLY');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
