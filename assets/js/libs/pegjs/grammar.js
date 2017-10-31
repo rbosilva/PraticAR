@@ -92,10 +92,23 @@
                (op == 'EXCEPT' ? 'NOT ' : '') + 'EXISTS(' + rel2 +
                (rel2.search("WHERE") === -1 ? ' WHERE ' : ' AND ') + str + ')';
     }
+    
+    function createDivision(table1, table2, col1, col2) {
+        return table1;
+//        SELECT alias1.nome
+//        FROM pilotos AS alias1, avioes AS alias2
+//        WHERE alias1.aviao = alias2.nome
+//        GROUP BY alias1.nome
+//        HAVING COUNT(alias1.aviao) = (SELECT COUNT(nome) FROM avioes);
+//https://www.red-gate.com/simple-talk/sql/t-sql-programming/divided-we-stand-the-sql-of-relational-division/
+    }
 
 }
 
 // Aqui é onde são definidas as instruções do Parser
+
+start
+ = UnionExceptIntersectRelation
 
 // União, Diferença, Intersecção
 UnionExceptIntersectRelation
@@ -119,24 +132,27 @@ Relation
  / _ "σ" _ cond:ConditionStart _ "(" _ rel:Relation _ ")" _
    {return selectAlias("σ", cond, null, rel);}
  // Produto Cartesiano
- / _ nome:Identifier _ "X" _ rel:Relation _
-   {return nome+","+rel}
+ / _ table:Identifier _ "X" _ rel:Relation _
+   {return table + "," + rel}
+ // Divisão
+ / _ table1:Identifier _ DivisionSymbol _ "(" _ col1:SuperIdentifier _ "=" _ col2:SuperIdentifier _ ")" _ table2:Identifier _
+   {return createDivision(table1, table2, col1, col2);}
  // Inner join
  / _ nome1:Identifier _ op:JoinSymbol _ "(" _ col1:SuperIdentifier _ "=" _ col2:SuperIdentifier _ ")" _ rel:Relation _
-   {return createJoin(nome1,rel,col1,col2,op);}
+   {return createJoin(nome1, rel, col1, col2, op);}
  // Natural join
  / _ nome1:Identifier _ op:JoinSymbol _ rel:Relation _
-   {return createJoin(nome1,rel,null,null," NATURAL JOIN ");}
+   {return createJoin(nome1, rel, null, null, " NATURAL JOIN ");}
  // Renomeação (Relação)
  / _ "ρ" _ newName:Identifier _ "(" _ rel:Relation _ ")" _
-   {return renameRelCol(newName,rel);}
+   {return renameRelCol(newName, rel);}
  / _ "ρ" _ newName:Identifier _ "(" _ rel:UnionExceptIntersectRelation _ ")" _
-   {return renameRelCol(newName,rel);}
+   {return renameRelCol(newName, rel);}
  // Renomeação (Coluna)
  / _ "ρ" _ "[" _ cols:Columns _ "]" _ "(" _ rel:Relation _ ")" _
-   {return renameRelCol(cols,rel,"column");}
+   {return renameRelCol(cols, rel, "column");}
  / _ "ρ" _ "[" _ cols:Columns _ "]" _ "(" _ rel:UnionExceptIntersectRelation _ ")" _
-   {return renameRelCol(cols,rel,"column");}
+   {return renameRelCol(cols, rel, "column");}
  // Tabela
  / _ relation:Identifier _
    {return relation;}
@@ -182,6 +198,9 @@ Except "Símbolo de diferença (-)"
 
 JoinSymbol "Símbolo de junção (⨝)"
  = "⨝" {return " INNER JOIN ";}
+ 
+DivisionSymbol "Símbolo de divisão (÷)"
+ = "÷" {return createDivision();}
 
 LesserEqual "Menor ou igual (<=)"
  = "<=" {return " <= ";}
