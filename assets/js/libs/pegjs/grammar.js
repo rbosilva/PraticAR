@@ -94,13 +94,13 @@
     }
     
     function createDivision(columns, rel1, rel2, cond) {
-    	columns = columns || "";
-    	var cols = columns.split(",");
-		return "SELECT " + columns +
-        	" FROM " + rel1 + "," + rel2 +
-            " WHERE " + cond +
-            " GROUP BY " + cols[0] +
-            " HAVING COUNT(*) = (SELECT COUNT(*) FROM " + rel2 + ")";
+        columns = columns || "";
+        var cols = columns.split(","),
+            column_group = cols[0] == "*" ? "1" : cols[0];
+        return "SELECT " + columns +
+               " FROM " + rel1 + " JOIN " + rel2 + " ON " + cond +
+               " GROUP BY " + column_group +
+               " HAVING COUNT(*) = (SELECT COUNT(*) FROM " + rel2 + ")";
     }
 
 }
@@ -122,8 +122,10 @@ UnionExceptIntersectRelation
  / rel:Relation {return simpleSelect(rel)}
  
 DivisionRelation
- = _ "π" _ columns:Columns _ "(" _ rel1:Identifier _ ")" _ DivisionSymbol _ "(" _ cond:ConditionStart _ ")" _ rel2:Identifier _
+ = _ "π" _ columns:Columns _ "(" _ rel1:Relation _ ")" _ DivisionSymbol _ "(" _ cond:ConditionStart _ ")" _ rel2:Relation _
    {return createDivision(columns, rel1, rel2, cond);}
+ / _ rel1:Relation _ DivisionSymbol _ "(" _ cond:ConditionStart _ ")" _ rel2:Relation _
+   {return createDivision("*", rel1, rel2, cond);}
 
 Relation
   // Projeção
@@ -133,12 +135,14 @@ Relation
    {return selectAlias("π", null, col, rel);}
  / _ "π" _ col:Columns _ "(" _ rel:UnionExceptIntersectRelation _ ")" _
    {return selectAlias("π", null, col, rel);}
+ / _ "π" _ col:Columns _ "(" _ rel:DivisionRelation _ ")" _
+   {return selectAlias("π", null, col, rel);}
  // Seleção
  / _ "σ" _ cond:ConditionStart _ "(" _ rel:Relation _ ")" _
    {return selectAlias("σ", cond, null, rel);}
  // Produto Cartesiano
- / _ table:Identifier _ "X" _ rel:Relation _
-   {return table + "," + rel}
+ / _ table:Identifier _ op:CrossJoinSymbol _ rel:Relation _
+   {return table + op + rel}
  // Inner join
  / _ nome1:Identifier _ op:JoinSymbol _ "(" _ col1:SuperIdentifier _ "=" _ col2:SuperIdentifier _ ")" _ rel:Relation _
    {return createJoin(nome1, rel, col1, col2, op);}
@@ -161,10 +165,9 @@ Relation
 
 // Tratamento do "E" e "OU" condicionais
 ConditionStart
- = _ esq: Condition _ op:ConditionalAnd _ dir:ConditionStart _ {return esq + op + dir;}
- / _ esq: Condition _ op:ConditionalOr _ dir:ConditionStart _ {return esq + op + dir;}
- / cond: Condition {return cond;}
- / rel: Relation {return "(" + rel + ")";}
+ = _ esq:Condition _ op:ConditionalAnd _ dir:ConditionStart _ {return esq + op + dir;}
+ / _ esq:Condition _ op:ConditionalOr _ dir:ConditionStart _ {return esq + op + dir;}
+ / cond:Condition {return cond;}
 
 // Tratamento dos caracteres de comparação (<, >, =, ...)
 Condition
@@ -174,10 +177,16 @@ Condition
  / _ esq:Type _ op:GreaterThan _ dir:Type {return esq + op + dir;}
  / _ esq:Type _ op:LesserThan _ dir:Type {return esq + op + dir;}
  / _ esq:Type _ op:Equal _ dir:Type {return esq + op + dir;}
+ / Type
 
 //Tipos existentes
 Type
  = "null"
+ / "NULL"
+ / "true"
+ / "TRUE"
+ / "false"
+ / "FALSE"
  / SuperIdentifier
  / Float
  / Integer
@@ -203,6 +212,9 @@ JoinSymbol "Símbolo de junção (⨝)"
  
 DivisionSymbol "Símbolo de divisão (÷)"
  = "÷" {return createDivision();}
+ 
+CrossJoinSymbol "Símbolo de Produto cartesiano"
+ = "X" {return ",";}
 
 LesserEqual "Menor ou igual (<=)"
  = "<=" {return " <= ";}

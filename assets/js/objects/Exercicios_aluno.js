@@ -20,7 +20,7 @@ var Exercicios_aluno = {
                         {data: 'respondido_em', targets: "no-sort", orderable: false, searchable: false},
                         {data: 'responder', class: 'text-center'}
                     ],
-                    order: [2, 'asc'],
+                    order: [1, 'asc'],
                     createdRow: function(row, data, dataIndex) {
                         if (data.respondido_em != null) {
                             $(row).data('respondido', 1);

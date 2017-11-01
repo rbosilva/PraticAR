@@ -40,7 +40,9 @@ var Cadastro_exercicios = {
     },
     list_lists: function (id_turma) {
         var self = this;
-        $('#page-wrapper').load(self.url('list_lists', id_turma), function () {
+        $('#page-wrapper').load(self.url('list_lists'), {
+            id_turma: id_turma
+        }, function () {
             System.initializeComponents({
                 datatables: {
                     ajax: {
@@ -55,7 +57,8 @@ var Cadastro_exercicios = {
                         {data: 'data_prazo'},
                         {data: 'hora_prazo'},
                         {data: 'editar'},
-                        {data: 'excluir'}
+                        {data: 'excluir'},
+                        {data: 'entregas', class: 'text-center'}
                     ]
                 }
             });
@@ -68,7 +71,49 @@ var Cadastro_exercicios = {
             }).on('click', '.excluir', function (e) {
                 e.preventDefault();
                 self.delete_list($(this).get_tr_data('id'), id_turma);
+            }).on('click', '.entregas', function (e) {
+                e.preventDefault();
+                self.list_deliveries(id_turma, $(this).get_tr_data('id'));
             });
+        });
+    },
+    list_deliveries: function (id_turma, id_lista) {
+        var self = this;
+        $('#page-wrapper').load(self.url('list_deliveries'), {
+            id_lista: id_lista,
+            id_turma: id_turma
+        }, function () {
+            System.initializeComponents({
+                datatables: {
+                    ajax: {
+                        url: self.url('list_deliveries'),
+                        type: 'POST',
+                        data: {
+                            lista: id_lista,
+                            turma: id_turma
+                        }
+                    },
+                    columns: [
+                        {data: 'nome'},
+                        {data: 'data'},
+                        {data: 'hora'},
+                        {data: 'detalhes', class: 'text-center'}
+                    ]
+                }
+            });
+//            $('.novo').click(function () {
+//                self.form_list(id_lista);
+//            });
+//            $('table.table').on('click', '.editar', function (e) {
+//                e.preventDefault();
+//                self.form_list(id_lista, $(this).get_tr_data('id'));
+//            }).on('click', '.excluir', function (e) {
+//                e.preventDefault();
+//                self.delete_list($(this).get_tr_data('id'), id_turma);
+//            }).on('click', '.resultados', function (e) {
+//                e.preventDefault();
+//                self.list_deliveries($(this).get_tr_data('id'));
+//            });
         });
     },
     form_list: function (id_turma, id_lista) {

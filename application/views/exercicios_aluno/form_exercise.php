@@ -30,7 +30,7 @@
                 placeholder='Digite uma consulta em "Resposta"' readonly></textarea>
             <br>
             <button type="button" class="btn btn-outline btn-default visualizar-consulta"><i class="fa fa-play"></i> <span>Visualizar consulta</span></button>
-        <button type="button" class="btn btn-outline btn-default visualizar-tabelas"><i class="fa fa-table"></i> <span>Visualizar tabelas</span></button>
+            <button type="button" class="btn btn-outline btn-default visualizar-tabelas"><i class="fa fa-table"></i> <span>Visualizar tabelas</span></button>
         </div>
     </div>
     <div class="col-lg-offset-2 col-lg-10 form-buttons">

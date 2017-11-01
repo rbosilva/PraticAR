@@ -42,6 +42,7 @@ class Exercicios_aluno extends MY_Controller {
     
     public function form() {
         $id_lista = $this->input->post('id_lista', true);
+        $user_id = $this->session->user_info['id'];
         $exercicios = $respostas = array();
         if (!empty($id_lista)) {
             $lista = $this->lista->get($id_lista);
@@ -52,7 +53,7 @@ class Exercicios_aluno extends MY_Controller {
             if ($data_atual < $data_prazo || ($data_atual == $data_prazo && ($hora_atual <= $hora_prazo))) {
                 $exercicios = $this->exercicio->get_where("lista = $id_lista", 'id asc');
                 foreach ($exercicios as $exercicio) {
-                    $resposta = $this->resposta->get_first_where("exercicio = $exercicio[id]");
+                    $resposta = $this->resposta->get_first_where("exercicio = $exercicio[id] and aluno = $user_id");
                     if (!empty($resposta)) {
                         $respostas[$exercicio['id']] = array(
                             'resposta' => $resposta['resposta'],
@@ -75,12 +76,14 @@ class Exercicios_aluno extends MY_Controller {
     
     public function save() {
         $respostas = $this->input->post('resposta', true);
+        $user_id = $this->session->user_info['id'];
         $this->form_validation->set_rules($this->resposta->get_rules_from_db());
         $this->db->trans_begin();
-        foreach ($respostas as $exercicio => $resposta) {            
-            $this->resposta->delete_where("exercicio = $exercicio");
+        foreach ($respostas as $exercicio => $resposta) {
+            $this->resposta->delete_where("exercicio = $exercicio and aluno = $user_id");
             $data = array(
                 'exercicio' => $exercicio,
+                'aluno' => $user_id,
                 'resposta' => $resposta['ra'],
                 'resposta_sql' => $resposta['sql'],
                 'data' => date('Y-m-d'),

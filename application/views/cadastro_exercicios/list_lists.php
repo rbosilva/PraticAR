@@ -17,11 +17,12 @@
                 <table class="table table-striped table-bordered table-hover">
                     <thead>
                         <tr>
-                            <th>Descrição</th>
+                            <th>Título</th>
                             <th width="100">Data de Entr.</th>
                             <th width="100">Hora de Entr.</th>
                             <th width="30" class="no-sort no-print">Editar</th>
                             <th width="30" class="no-sort no-print">Excluir</th>
+                            <th width="30" class="no-sort no-print">Respostas</th>
                         </tr>
                     </thead>
                     <tbody></tbody>

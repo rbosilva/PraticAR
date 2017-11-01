@@ -68,4 +68,57 @@ class Usuario_Model extends MY_Model {
         $this->db->update($this->get_table());
     }
     
+    public function get_users_with_lists($where = null, $order_by = null, $limit = null, $offset = null) {
+        $this->db->select(array(
+            'u.id',
+            'u.nome',
+            '(select data
+              from respostas
+              where exercicio in (select id
+                                  from exercicios
+                                  where lista = l.id)
+                    and aluno = u.id
+              limit 1) as data',
+            '(select hora
+              from respostas
+              where exercicio in (select id
+                                  from exercicios
+                                  where lista = l.id)
+                    and aluno = u.id
+              limit 1) as hora'
+        ));
+        $this->db->from('usuarios u');
+        $this->db->join('usuario_turma ut', 'ut.id_usuario = u.id', 'left');
+        $this->db->join('listas l', 'l.turma = ut.id_turma', 'left');
+        if (!empty($where)) {
+            $this->db->where($where);
+        }
+        if (!empty($order_by)) {
+            $this->db->order_by($order_by);
+        }
+        $this->db->group_by('u.id');
+        if (!empty($limit)) {
+            if (!empty($offset)) {
+                $this->db->limit($limit, $offset);
+            } else {
+                $this->db->limit($limit);
+            }
+        }
+        $query = $this->db->get();
+        if ($query) {
+            return $query->result_array();
+        }
+        return false;
+    }
+    
+    public function count_users_with_lists($where = null) {
+        $this->db->from('usuarios u');
+        $this->db->join('usuario_turma ut', 'ut.id_usuario = u.id');
+        $this->db->join('listas l', 'l.turma = ut.id_turma');
+        if (!empty($where)) {
+            $this->db->where($where);
+        }
+        return $this->db->count_all_results();
+    }
+    
 }

@@ -8,7 +8,6 @@ class Cadastro_exercicios extends MY_Controller {
         parent::__construct();
         $this->load->model('Banco_Model', 'banco');
         $this->load->model('Turma_Model', 'turma');
-        $this->load->model('Usuario_Turma_Model', 'alunos_turma');
         $this->load->model('Usuario_Model', 'aluno');
         $this->load->model('Lista_Model', 'lista');
         $this->load->model('Exercicio_Model', 'exercicio');
@@ -37,9 +36,9 @@ class Cadastro_exercicios extends MY_Controller {
         }
     }
     
-    public function list_lists($id_turma = null) {
+    public function list_lists() {
         $datapost = $this->input->post(null, true);
-        if (!empty($datapost)) {
+        if (!empty($datapost['draw'])) {
             $where = "turma = $datapost[turma]";
             $params = formatParams($datapost);
             if (!empty($params['where'])) {
@@ -51,13 +50,40 @@ class Cadastro_exercicios extends MY_Controller {
             $count_all = $this->lista->count($params['where']);
             $count_filtered = $this->lista->count($params['where']);
             $results = formatVars($data);
-            echo formatResults($results, $count_all, $count_filtered, $params['draw']);
+            echo formatResults($results, $count_all, $count_filtered, $params['draw'], function (&$row) {
+                $row['entregas'] = '<a href="#" title="Visualizar entregas" class="entregas"><i class="fa fa-eye"></i></a>';
+            });
         } else {
-            if (!empty($id_turma)) {
-                $turma = $this->turma->get($id_turma);
-                $descricao = $turma['descricao'];
-                $this->load->view('cadastro_exercicios/list_lists', array('turma' => $descricao));
+            $id_turma = $datapost['id_turma'];
+            $turma = $this->turma->get($id_turma);
+            $descricao = $turma['descricao'];
+            $this->load->view('cadastro_exercicios/list_lists', array('turma' => $descricao));
+        }
+    }
+    
+    public function list_deliveries() {
+        $datapost = $this->input->post(null, true);
+        if (!empty($datapost['draw'])) {
+            $where = "ut.id_turma = $datapost[turma] and u.tipo = 2 and l.id = $datapost[lista]";
+            $params = formatParams($datapost);
+            if (!empty($params['where'])) {
+                $params['where'] = "$where and (" . $params['where'] . ')';
+            } else {
+                $params['where'] = $where;
             }
+            $data = $this->aluno->get_users_with_lists($params['where'], $params['order_by'], $params['length'], $params['start']);
+            $count_all = $this->aluno->count_users_with_lists($where);
+            $count_filtered = $this->aluno->count_users_with_lists($params['where']);
+            $results = formatVars($data);
+            echo formatResults($results, $count_all, $count_filtered, $params['draw'], function (&$row) {
+                $row['detalhes'] = '<a href="#" title="Visualizar detalhes" class="detalhes"><i class="fa fa-eye"></i></a>';
+            });
+        } else {
+            $id_lista = $datapost['id_lista'];
+            $id_turma = $datapost['id_turma'];
+            $lista = $this->lista->get($id_lista);
+            $turma = $this->turma->get($id_turma);
+            $this->load->view('cadastro_exercicios/list_deliveries', array('lista' => $lista, 'turma' => $turma));
         }
     }
     
@@ -118,6 +144,7 @@ class Cadastro_exercicios extends MY_Controller {
             if (($save = $this->lista->save($dados_lista)) !== false) {
                 $this->form_validation->set_rules($exercicio_rules);
                 foreach ($dados_exercicios as $exercicio) {
+                    // Se o exercício foi excluído
                     if ($exercicio['excluido'] == 'true') {
                         $this->resposta->delete_where("exercicio = $exercicio[id]");
                         if (!$this->exercicio->delete($exercicio['id'])) {
@@ -126,6 +153,7 @@ class Cadastro_exercicios extends MY_Controller {
                             $this->response('error', $error['message']);
                         }
                     } else {
+                    // Caso contrário
                         $exercicio['lista'] = $save;
                         unset($exercicio['excluido']);
                         $this->form_validation->set_data($exercicio);

@@ -18,6 +18,7 @@ class Lista_Model extends MY_Model {
                                  from exercicios
                                  where lista = l.id
                                  limit 1)
+                    and aluno = ut.id_usuario
               limit 1) as respondido_em'
         ));
         $this->db->from('listas l');
