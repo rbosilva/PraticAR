@@ -93,14 +93,14 @@
                (rel2.search("WHERE") === -1 ? ' WHERE ' : ' AND ') + str + ')';
     }
     
-    function createDivision(table1, table2, col1, col2) {
-        return table1;
-//        SELECT alias1.nome
-//        FROM pilotos AS alias1, avioes AS alias2
-//        WHERE alias1.aviao = alias2.nome
-//        GROUP BY alias1.nome
-//        HAVING COUNT(alias1.aviao) = (SELECT COUNT(nome) FROM avioes);
-//https://www.red-gate.com/simple-talk/sql/t-sql-programming/divided-we-stand-the-sql-of-relational-division/
+    function createDivision(columns, rel1, rel2, cond) {
+    	columns = columns || "";
+    	var cols = columns.split(",");
+		return "SELECT " + columns +
+        	" FROM " + rel1 + "," + rel2 +
+            " WHERE " + cond +
+            " GROUP BY " + cols[0] +
+            " HAVING COUNT(*) = (SELECT COUNT(*) FROM " + rel2 + ")";
     }
 
 }
@@ -108,7 +108,8 @@
 // Aqui é onde são definidas as instruções do Parser
 
 start
- = UnionExceptIntersectRelation
+ = DivisionRelation
+ / UnionExceptIntersectRelation
 
 // União, Diferença, Intersecção
 UnionExceptIntersectRelation
@@ -119,6 +120,10 @@ UnionExceptIntersectRelation
  / _ rel:Relation _ op:Union _ rest:UnionExceptIntersectRelation
    {return simpleSelect(rel) + op + rest;}
  / rel:Relation {return simpleSelect(rel)}
+ 
+DivisionRelation
+ = _ "π" _ columns:Columns _ "(" _ rel1:Identifier _ ")" _ DivisionSymbol _ "(" _ cond:ConditionStart _ ")" _ rel2:Identifier _
+   {return createDivision(columns, rel1, rel2, cond);}
 
 Relation
   // Projeção
@@ -134,9 +139,6 @@ Relation
  // Produto Cartesiano
  / _ table:Identifier _ "X" _ rel:Relation _
    {return table + "," + rel}
- // Divisão
- / _ table1:Identifier _ DivisionSymbol _ "(" _ col1:SuperIdentifier _ "=" _ col2:SuperIdentifier _ ")" _ table2:Identifier _
-   {return createDivision(table1, table2, col1, col2);}
  // Inner join
  / _ nome1:Identifier _ op:JoinSymbol _ "(" _ col1:SuperIdentifier _ "=" _ col2:SuperIdentifier _ ")" _ rel:Relation _
    {return createJoin(nome1, rel, col1, col2, op);}

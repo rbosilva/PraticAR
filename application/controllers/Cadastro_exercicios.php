@@ -119,14 +119,11 @@ class Cadastro_exercicios extends MY_Controller {
                 $this->form_validation->set_rules($exercicio_rules);
                 foreach ($dados_exercicios as $exercicio) {
                     if ($exercicio['excluido'] == 'true') {
+                        $this->resposta->delete_where("exercicio = $exercicio[id]");
                         if (!$this->exercicio->delete($exercicio['id'])) {
                             $error = $this->db->error();
                             $this->db->trans_rollback();
-                            if (stripos($error['message'], 'foreign key') !== false) {
-                                $this->response('error', 'Este questionário já foi respondido, não é possível excluir suas questões.');
-                            } else {
-                                $this->response('error', $error['message']);
-                            }
+                            $this->response('error', $error['message']);
                         }
                     } else {
                         $exercicio['lista'] = $save;
