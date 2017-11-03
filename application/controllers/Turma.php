@@ -160,11 +160,7 @@ class Turma extends MY_Controller {
                 'text' => $professor['nome']
             );
         }
-        $alunos_disponíveis = array(
-            'text' => count($result) > 0 ? 'Alunos disponíveis:' : 'Não há alunos disponíveis.',
-            'children' => $result
-        );
-        echo json_encode(array('dados' => array($alunos_disponíveis), 'total_count' => $total_count));
+        echo json_encode(array('dados' => $result, 'total_count' => $total_count));
     }
     
 }

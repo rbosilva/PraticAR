@@ -74,7 +74,7 @@ var Exercicios_aluno = {
                     } else {
                         sql.val('');
                     }
-                }).keyup();
+                });
                 // Execução da consulta em SQL
                 $('.visualizar-consulta').click(function () {
                     var sql = '';

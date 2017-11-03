@@ -57,6 +57,7 @@ class Exercicios_aluno extends MY_Controller {
                     if (!empty($resposta)) {
                         $respostas[$exercicio['id']] = array(
                             'resposta' => $resposta['resposta'],
+                            'resposta_sql' => $resposta['resposta_sql'],
                             'tentativas' => $resposta['tentativas']
                         );
                     }
@@ -88,7 +89,7 @@ class Exercicios_aluno extends MY_Controller {
                 'resposta_sql' => $resposta['sql'],
                 'data' => date('Y-m-d'),
                 'hora' => date('H:i'),
-                'tentativas' => $resposta['tentativas']
+                'tentativas' => empty($resposta['tentativas']) ? 1 : $resposta['tentativas']
             );
             $this->form_validation->set_data($data);
             if ($this->form_validation->run()) {

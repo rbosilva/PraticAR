@@ -128,6 +128,8 @@ class Cadastro_exercicios extends MY_Controller {
         $id_turma = $datapost['turma'];
         $lista = $datapost['lista'];
         $exercicio = $datapost['exercicio'];
+        $exercicio['resposta'] = html_entity_decode($exercicio['resposta']);
+        $exercicio['resposta_sql'] = html_entity_decode($exercicio['resposta_sql']);
         $turma = $this->turma->get($id_turma);
         $data = formatVars(array(
             'exercicio' => $exercicio,

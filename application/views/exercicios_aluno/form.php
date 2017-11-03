@@ -27,9 +27,21 @@
                         $sequencia = 1;
                         foreach ($exercicios as $exercicio) {
                             $exercicio['sequencia'] = $sequencia++;
-                            $exercicio['ultimo'] = ($exercicio['sequencia'] == count($exercicios));
-                            $exercicio['resposta'] = $respostas[$exercicio['id']]['resposta'];
-                            $exercicio['tentativas'] = $respostas[$exercicio['id']]['tentativas'];
+                            if (isset($respostas[$exercicio['id']]['resposta'])) {
+                                $exercicio['resposta'] = $respostas[$exercicio['id']]['resposta'];
+                            } else {
+                                $exercicio['resposta'] = '';
+                            }
+                            if (isset($respostas[$exercicio['id']]['resposta'])) {
+                                $exercicio['resposta_sql'] = $respostas[$exercicio['id']]['resposta_sql'];
+                            } else {
+                                $exercicio['resposta_sql'] = '';
+                            }
+                            if (isset($respostas[$exercicio['id']]['tentativas'])) {
+                                $exercicio['tentativas'] = $respostas[$exercicio['id']]['tentativas'];
+                            } else {
+                                $exercicio['tentativas'] = '';
+                            }
                             $this->load->view('exercicios_aluno/form_exercise', $exercicio);
                         }
                         ?>

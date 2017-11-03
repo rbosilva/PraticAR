@@ -54,11 +54,11 @@
         }
     }
     
-    function createJoin(rel1, rel2, col1, col2, op) {
+    function createJoin(rel1, rel2, col1, col2, op, comparation) {
         if (col1 == null || col2 == null) {
             var on = "";
         } else {
-            var on = " ON " + col1 + " = " + col2;
+            var on = " ON " + col1 + comparation + col2;
         }
         if (rel1.trim().search("SELECT") === 0) {
             rel1 = "(" + rel1 + ")alias" + selects++;
@@ -144,8 +144,8 @@ Relation
  / _ table:Identifier _ op:CrossJoinSymbol _ rel:Relation _
    {return table + op + rel}
  // Inner join
- / _ nome1:Identifier _ op:JoinSymbol _ "(" _ col1:SuperIdentifier _ "=" _ col2:SuperIdentifier _ ")" _ rel:Relation _
-   {return createJoin(nome1, rel, col1, col2, op);}
+ / _ nome1:Identifier _ op:JoinSymbol _ "(" _ col1:SuperIdentifier _ comp:Comparation _ col2:SuperIdentifier _ ")" _ rel:Relation _
+   {return createJoin(nome1, rel, col1, col2, op, comp);}
  // Natural join
  / _ nome1:Identifier _ op:JoinSymbol _ rel:Relation _
    {return createJoin(nome1, rel, null, null, " NATURAL JOIN ");}
@@ -171,13 +171,16 @@ ConditionStart
 
 // Tratamento dos caracteres de comparação (<, >, =, ...)
 Condition
- = _ esq:Type _ op:LesserEqual _ dir:Type {return esq + op + dir;}
- / _ esq:Type _ op:GreaterEqual _ dir:Type {return esq + op + dir;}
- / _ esq:Type _ op:Different _ dir:Type {return esq + op + dir;}
- / _ esq:Type _ op:GreaterThan _ dir:Type {return esq + op + dir;}
- / _ esq:Type _ op:LesserThan _ dir:Type {return esq + op + dir;}
- / _ esq:Type _ op:Equal _ dir:Type {return esq + op + dir;}
+ = _ esq:Type _ op:Comparation _ dir:Type {return esq + op + dir;}
  / Type
+ 
+Comparation
+ = LesserEqual
+ / GreaterEqual
+ / Different
+ / GreaterThan
+ / LesserThan
+ / Equal
 
 //Tipos existentes
 Type

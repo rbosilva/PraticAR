@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: 03-Nov-2017 às 14:04
+-- Generation Time: 03-Nov-2017 às 19:37
 -- Versão do servidor: 10.1.13-MariaDB
 -- PHP Version: 5.6.20
 
@@ -36,18 +36,6 @@ CREATE TABLE `exercicios` (
   `resposta_sql` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Extraindo dados da tabela `exercicios`
---
-
-INSERT INTO `exercicios` (`id`, `lista`, `descricao`, `resposta`, `resposta_sql`) VALUES
-(111, 4, 'Faça uma consulta que retorne todos os dados da tabela "clientes".', 'clientes', 'SELECT * FROM `clientes`'),
-(112, 4, 'Faça uma consulta que retorne todos os clientes que tenham feito compras.', 'clientes ⨝ (clientes.id_cliente = compras.id_cliente) compras', 'SELECT * FROM `clientes` INNER JOIN `compras` ON `clientes`.`id_cliente` = `compras`.`id_cliente`'),
-(113, 4, 'Faça uma consulta que retorne o nome de todos os carros comprados juntamente com o nome do cliente que comprou. A consulta deve retornar duas colunas chamadas "cliente" e "carro", cada uma contendo o nome do cliente e do carro, respectivamente.', 'ρ [cliente, carro] (\n    π clientes.nome , carros.nome (\n        σ clientes.id_cliente = compras.id_cliente ^ carros.id_carro = compras.id_carro (\n            clientes X compras X carros\n        )\n    )\n)', 'SELECT `clientes`.`nome` AS `cliente`,`carros`.`nome` AS `carro` FROM `clientes`,`compras`,`carros` WHERE `clientes`.`id_cliente` = `compras`.`id_cliente` AND `carros`.`id_carro` = `compras`.`id_carro`'),
-(119, 9, 'Faça uma consulta que retorne todos os carros com id maior que 10.', 'σ id_carro > 10 (carros)', 'SELECT * FROM `carros` WHERE `id_carro` > 10'),
-(120, 10, 'Faça uma consulta que retorne apenas o nome de todos os pilotos que são capazes de pilotar todos os aviões.\nDica: É uma divisão.', 'π pilotos.nome (pilotos) ÷ (pilotos.aviao = avioes.nome) avioes', 'SELECT `pilotos`.`nome` FROM `pilotos` JOIN `avioes` ON `pilotos`.`aviao` = `avioes`.`nome` GROUP BY `pilotos`.`nome` HAVING COUNT(*) = (SELECT COUNT(*) FROM `avioes`)'),
-(121, 11, 'Pilotos', 'pilotos', 'SELECT * FROM `pilotos`');
-
 -- --------------------------------------------------------
 
 --
@@ -61,16 +49,6 @@ CREATE TABLE `listas` (
   `data_prazo` date NOT NULL,
   `hora_prazo` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Extraindo dados da tabela `listas`
---
-
-INSERT INTO `listas` (`id`, `titulo`, `turma`, `data_prazo`, `hora_prazo`) VALUES
-(4, 'Lista 1', 6, '2017-11-05', '22:15:00'),
-(9, 'Lista 2', 7, '2017-11-06', '22:15:00'),
-(10, 'Lista 3', 6, '2017-11-08', '22:15:00'),
-(11, 'Exercícios - 03/11/2017', 8, '2017-11-10', '22:15:00');
 
 -- --------------------------------------------------------
 
@@ -89,19 +67,6 @@ CREATE TABLE `respostas` (
   `hora` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Extraindo dados da tabela `respostas`
---
-
-INSERT INTO `respostas` (`id`, `exercicio`, `aluno`, `resposta`, `resposta_sql`, `tentativas`, `data`, `hora`) VALUES
-(34, 120, 2, 'π pilotos.nome (pilotos) ÷ (pilotos.aviao = avioes.nome) avioes', 'SELECT `pilotos`.`nome` FROM `pilotos` JOIN `avioes` ON `pilotos`.`aviao` = `avioes`.`nome` GROUP BY `pilotos`.`nome` HAVING COUNT(*) = (SELECT COUNT(*) FROM `avioes`)', 1, '2017-11-01', '10:28:00'),
-(35, 111, 2, 'clientes', 'SELECT * FROM `clientes`', 2, '2017-11-01', '16:45:00'),
-(36, 112, 2, 'clientes ⨝ (clientes.id_cliente = compras.id_cliente) compras', 'SELECT * FROM `clientes` INNER JOIN `compras` ON `clientes`.`id_cliente` = `compras`.`id_cliente`', 3, '2017-11-01', '16:45:00'),
-(37, 113, 2, 'ρ [cliente, carro] (π clientes.nome, carros.nome (σ carros.id_carro = compras.id_carro ^ compras.id_cliente = clientes.id_cliente (carros X compras X clientes)))', 'SELECT `clientes`.`nome` AS `cliente`,`carros`.`nome` AS `carro` FROM `carros`,`compras`,`clientes` WHERE `carros`.`id_carro` = `compras`.`id_carro` AND `compras`.`id_cliente` = `clientes`.`id_cliente`', 1, '2017-11-01', '16:45:00'),
-(41, 111, 4, 'clientes', 'SELECT * FROM `clientes`', 5, '2017-11-01', '17:37:00'),
-(42, 112, 4, 'clientes ⨝ (clientes.id_cliente = compras.id_cliente) compras', 'SELECT * FROM `clientes` INNER JOIN `compras` ON `clientes`.`id_cliente` = `compras`.`id_cliente`', 1, '2017-11-01', '17:37:00'),
-(43, 113, 4, 'ρ [cliente, carro] (π clientes.nome, carros.nome (σ carros.id_carro = compras.id_carro ^ compras.id_cliente = clientes.id_cliente (carros X compras X clientes)))', 'SELECT `clientes`.`nome` AS `cliente`,`carros`.`nome` AS `carro` FROM `carros`,`compras`,`clientes` WHERE `carros`.`id_carro` = `compras`.`id_carro` AND `compras`.`id_cliente` = `clientes`.`id_cliente`', 2, '2017-11-01', '17:37:00');
-
 -- --------------------------------------------------------
 
 --
@@ -114,16 +79,6 @@ CREATE TABLE `turmas` (
   `ativa` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Extraindo dados da tabela `turmas`
---
-
-INSERT INTO `turmas` (`id`, `descricao`, `ativa`) VALUES
-(1, '2010/2', 1),
-(6, '2011/1', 1),
-(7, '2011/2', 1),
-(8, '2016/1', 1);
-
 -- --------------------------------------------------------
 
 --
@@ -135,25 +90,6 @@ CREATE TABLE `usuario_turma` (
   `id_usuario` int(11) NOT NULL,
   `id_turma` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Extraindo dados da tabela `usuario_turma`
---
-
-INSERT INTO `usuario_turma` (`id`, `id_usuario`, `id_turma`) VALUES
-(23, 2, 6),
-(24, 4, 6),
-(25, 5, 6),
-(44, 3, 1),
-(45, 7, 1),
-(95, 2, 7),
-(96, 5, 7),
-(97, 9, 8),
-(98, 3, 8),
-(99, 2, 8),
-(100, 4, 8),
-(101, 6, 8),
-(102, 5, 8);
 
 -- --------------------------------------------------------
 
@@ -176,15 +112,7 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `nome`, `login`, `senha`, `tentativas`, `bloqueado`, `tipo`) VALUES
-(1, 'Administrador', 'admin', '$2a$08$NDU3OTE4NTYzNTlmNzVkZOeQXKqVEHQCRoyErOnKoLq7Fj9mktPZq', 0, 0, 0),
-(2, 'Rodrigo Barbosa', 'rodrigo.barbosa', '$2a$08$MTQ3NjE5NTAxNjU5ZGMwMO6OXSGA1YnhOcPml2OwUOri89u8br0aC', 0, 0, 2),
-(3, 'Alesander Vaccari', 'alesander.vaccari', '$2a$08$MTUyNTE0MTkwMDU5ZTc1M.EbmEC2qx.yvZtKYrXrg1ibkoiQArovC', 0, 0, 2),
-(4, 'Tiago Tonus', 'tiago.tonus', '$2a$08$NjYwMDU0MjcxNTljYmFmNumCBhhLcRzc/gblC8kGeIXHIcd938dOi', 0, 0, 2),
-(5, 'Lucas', 'lucas', '$2a$08$ODExMzQ1MDY1OWYzOTg0N.Fwp.m87vxbwaF5zijJQQtGzbWjUoZ9W', 0, 0, 1),
-(6, 'Willian Secco', 'willian.secco', '$2a$08$NDI2MjU4NjA1NTljYzBiM.TmtEohrKOgxYC.EEjlXWOff.Y.y9vAi', 0, 0, 2),
-(7, 'Adrovane', 'adrovane', '$2a$08$MTA2MTAyMTk1NDU5ZjFlMeKj4wGhh6.HrEiYTy/HZ6aAFYkNFdiDy', 0, 0, 1),
-(8, 'Rogério', 'rogerio', '$2a$08$MjA0NTkyMDA0NTU5ZjY3NedVK6BEUcBIkge29VV53GkyZKF8n873G', 0, 0, 1),
-(9, 'Fulano de Tal', 'fulano.de.tal', '$2a$08$OTA1NTI2NzkzNTlmNjc2YuhK48R5UmCnmj8AbH1ykiGslaj/WLhUK', 0, 0, 2);
+(1, 'Administrador', 'admin', '$2a$08$NDU3OTE4NTYzNTlmNzVkZOeQXKqVEHQCRoyErOnKoLq7Fj9mktPZq', 0, 0, 0);
 
 --
 -- Indexes for dumped tables
@@ -241,32 +169,32 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT for table `exercicios`
 --
 ALTER TABLE `exercicios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=122;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `listas`
 --
 ALTER TABLE `listas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `respostas`
 --
 ALTER TABLE `respostas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `turmas`
 --
 ALTER TABLE `turmas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `usuario_turma`
 --
 ALTER TABLE `usuario_turma`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- Constraints for dumped tables
 --
@@ -396,7 +324,6 @@ INSERT INTO `clientes` (`id_cliente`, `nome`, `idade`) VALUES
 --
 
 CREATE TABLE `compras` (
-  `id` int(11) DEFAULT NULL,
   `id_cliente` int(11) DEFAULT NULL,
   `id_carro` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -405,22 +332,21 @@ CREATE TABLE `compras` (
 -- Extraindo dados da tabela `compras`
 --
 
-INSERT INTO `compras` (`id`, `id_cliente`, `id_carro`) VALUES
-(1, 1, 1),
-(2, 2, 7),
-(3, 3, 10),
-(4, 4, 16),
-(5, 5, 20),
-(6, 5, 11),
-(7, 5, 15),
-(8, 6, 4),
-(9, 6, 6),
-(10, 7, 8),
-(11, 8, 9),
-(12, 9, 13),
-(13, 10, 14),
-(14, 10, 7),
-(15, 1, 21);
+INSERT INTO `compras` (`id_cliente`, `id_carro`) VALUES
+(1, 1),
+(2, 7),
+(3, 10),
+(4, 16),
+(5, 20),
+(5, 11),
+(5, 15),
+(6, 4),
+(6, 6),
+(7, 8),
+(8, 9),
+(9, 13),
+(10, 14),
+(10, 7);
 
 -- --------------------------------------------------------
 

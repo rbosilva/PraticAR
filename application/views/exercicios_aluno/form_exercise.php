@@ -27,7 +27,7 @@
             <label for="sql<?php echo $id; ?>" class="control-label">Expressão em SQL</label>
             <textarea name="resposta[<?php echo $id; ?>][sql]" tabindex="-1" class="form-control sql"
                 rows="2" style="resize: none; margin-top: 4px;" spellcheck="false"
-                placeholder='Digite uma consulta em "Resposta"' readonly></textarea>
+                placeholder='Digite uma consulta em "Resposta"' readonly><?php echo $resposta_sql; ?></textarea>
             <br>
             <button type="button" class="btn btn-outline btn-default visualizar-consulta"><i class="fa fa-play"></i> <span>Visualizar consulta</span></button>
             <button type="button" class="btn btn-outline btn-default visualizar-tabelas"><i class="fa fa-table"></i> <span>Visualizar tabelas</span></button>
