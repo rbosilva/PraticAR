@@ -87,6 +87,22 @@ class Cadastro_exercicios extends MY_Controller {
         }
     }
     
+    public function list_details() {
+        $datapost = $this->input->post(null, true);
+        $id_turma = $datapost['id_turma'];
+        $id_lista = $datapost['id_lista'];
+        $id_aluno = $datapost['id_aluno'];
+        $lista = $this->lista->get($id_lista);
+        $aluno = $this->aluno->get($id_aluno);
+        $data = $this->resposta->get_answers_by_aluno($id_lista, $id_aluno);
+        $this->load->view('cadastro_exercicios/list_details', array(
+            'turma' => $id_turma,
+            'lista' => $lista,
+            'aluno' => $aluno,
+            'data' => $data
+        ));
+    }
+    
     public function form_list() {
         $datapost = $this->input->post(null, true);
         $id_lista = $datapost['lista'];

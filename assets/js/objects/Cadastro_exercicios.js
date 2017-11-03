@@ -95,25 +95,24 @@ var Cadastro_exercicios = {
                     },
                     columns: [
                         {data: 'nome'},
-                        {data: 'data'},
-                        {data: 'hora'},
+                        {data: 'data', searchable: false},
+                        {data: 'hora', searchable: false},
                         {data: 'detalhes', class: 'text-center'}
                     ]
                 }
             });
-//            $('.novo').click(function () {
-//                self.form_list(id_lista);
-//            });
-//            $('table.table').on('click', '.editar', function (e) {
-//                e.preventDefault();
-//                self.form_list(id_lista, $(this).get_tr_data('id'));
-//            }).on('click', '.excluir', function (e) {
-//                e.preventDefault();
-//                self.delete_list($(this).get_tr_data('id'), id_turma);
-//            }).on('click', '.resultados', function (e) {
-//                e.preventDefault();
-//                self.list_deliveries($(this).get_tr_data('id'));
-//            });
+            $('table.table').on('click', '.detalhes', function (e) {
+                e.preventDefault();
+                self.list_details(id_turma, id_lista, $(this).get_tr_data('id'));
+            });
+        });
+    },
+    list_details: function (id_turma, id_lista, id_aluno) {
+        var self = this;
+        $('#page-wrapper').load(self.url('list_details'), {
+            id_turma: id_turma,
+            id_lista: id_lista,
+            id_aluno: id_aluno
         });
     },
     form_list: function (id_turma, id_lista) {

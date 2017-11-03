@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: 31-Out-2017 às 20:44
+-- Generation Time: 03-Nov-2017 às 14:04
 -- Versão do servidor: 10.1.13-MariaDB
 -- PHP Version: 5.6.20
 
@@ -44,7 +44,9 @@ INSERT INTO `exercicios` (`id`, `lista`, `descricao`, `resposta`, `resposta_sql`
 (111, 4, 'Faça uma consulta que retorne todos os dados da tabela "clientes".', 'clientes', 'SELECT * FROM `clientes`'),
 (112, 4, 'Faça uma consulta que retorne todos os clientes que tenham feito compras.', 'clientes ⨝ (clientes.id_cliente = compras.id_cliente) compras', 'SELECT * FROM `clientes` INNER JOIN `compras` ON `clientes`.`id_cliente` = `compras`.`id_cliente`'),
 (113, 4, 'Faça uma consulta que retorne o nome de todos os carros comprados juntamente com o nome do cliente que comprou. A consulta deve retornar duas colunas chamadas "cliente" e "carro", cada uma contendo o nome do cliente e do carro, respectivamente.', 'ρ [cliente, carro] (\n    π clientes.nome , carros.nome (\n        σ clientes.id_cliente = compras.id_cliente ^ carros.id_carro = compras.id_carro (\n            clientes X compras X carros\n        )\n    )\n)', 'SELECT `clientes`.`nome` AS `cliente`,`carros`.`nome` AS `carro` FROM `clientes`,`compras`,`carros` WHERE `clientes`.`id_cliente` = `compras`.`id_cliente` AND `carros`.`id_carro` = `compras`.`id_carro`'),
-(119, 9, 'Faça uma consulta que retorne todos os carros com id maior que 10.', 'σ id_carro > 10 (carros)', 'SELECT * FROM `carros` WHERE `id_carro` > 10');
+(119, 9, 'Faça uma consulta que retorne todos os carros com id maior que 10.', 'σ id_carro > 10 (carros)', 'SELECT * FROM `carros` WHERE `id_carro` > 10'),
+(120, 10, 'Faça uma consulta que retorne apenas o nome de todos os pilotos que são capazes de pilotar todos os aviões.\nDica: É uma divisão.', 'π pilotos.nome (pilotos) ÷ (pilotos.aviao = avioes.nome) avioes', 'SELECT `pilotos`.`nome` FROM `pilotos` JOIN `avioes` ON `pilotos`.`aviao` = `avioes`.`nome` GROUP BY `pilotos`.`nome` HAVING COUNT(*) = (SELECT COUNT(*) FROM `avioes`)'),
+(121, 11, 'Pilotos', 'pilotos', 'SELECT * FROM `pilotos`');
 
 -- --------------------------------------------------------
 
@@ -66,7 +68,9 @@ CREATE TABLE `listas` (
 
 INSERT INTO `listas` (`id`, `titulo`, `turma`, `data_prazo`, `hora_prazo`) VALUES
 (4, 'Lista 1', 6, '2017-11-05', '22:15:00'),
-(9, 'Lista 2', 7, '2017-11-06', '22:15:00');
+(9, 'Lista 2', 7, '2017-11-06', '22:15:00'),
+(10, 'Lista 3', 6, '2017-11-08', '22:15:00'),
+(11, 'Exercícios - 03/11/2017', 8, '2017-11-10', '22:15:00');
 
 -- --------------------------------------------------------
 
@@ -77,6 +81,7 @@ INSERT INTO `listas` (`id`, `titulo`, `turma`, `data_prazo`, `hora_prazo`) VALUE
 CREATE TABLE `respostas` (
   `id` int(11) NOT NULL,
   `exercicio` int(11) NOT NULL,
+  `aluno` int(11) NOT NULL,
   `resposta` text,
   `resposta_sql` text,
   `tentativas` int(11) NOT NULL,
@@ -88,11 +93,14 @@ CREATE TABLE `respostas` (
 -- Extraindo dados da tabela `respostas`
 --
 
-INSERT INTO `respostas` (`id`, `exercicio`, `resposta`, `resposta_sql`, `tentativas`, `data`, `hora`) VALUES
-(29, 111, 'clientes', 'SELECT * FROM `clientes`', 1, '2017-10-31', '13:30:00'),
-(30, 112, 'clientes ⨝ (clientes.id_cliente = compras.id_cliente) compras', 'SELECT * FROM `clientes` INNER JOIN `compras` ON `clientes`.`id_cliente` = `compras`.`id_cliente`', 1, '2017-10-31', '13:30:00'),
-(31, 113, 'ρ [cliente, carro] (π clientes.nome, carros.nome (σ carros.id_carro = compras.id_carro ^ compras.id_cliente = clientes.id_cliente (carros X compras X clientes)))', 'SELECT `clientes`.`nome` AS `cliente`,`carros`.`nome` AS `carro` FROM `carros`,`compras`,`clientes` WHERE `carros`.`id_carro` = `compras`.`id_carro` AND `compras`.`id_cliente` = `clientes`.`id_cliente`', 1, '2017-10-31', '13:30:00'),
-(32, 119, 'σ id_carro > 10 (carros)', 'SELECT * FROM `carros` WHERE `id_carro` > 10', 5, '2017-10-31', '13:30:00');
+INSERT INTO `respostas` (`id`, `exercicio`, `aluno`, `resposta`, `resposta_sql`, `tentativas`, `data`, `hora`) VALUES
+(34, 120, 2, 'π pilotos.nome (pilotos) ÷ (pilotos.aviao = avioes.nome) avioes', 'SELECT `pilotos`.`nome` FROM `pilotos` JOIN `avioes` ON `pilotos`.`aviao` = `avioes`.`nome` GROUP BY `pilotos`.`nome` HAVING COUNT(*) = (SELECT COUNT(*) FROM `avioes`)', 1, '2017-11-01', '10:28:00'),
+(35, 111, 2, 'clientes', 'SELECT * FROM `clientes`', 2, '2017-11-01', '16:45:00'),
+(36, 112, 2, 'clientes ⨝ (clientes.id_cliente = compras.id_cliente) compras', 'SELECT * FROM `clientes` INNER JOIN `compras` ON `clientes`.`id_cliente` = `compras`.`id_cliente`', 3, '2017-11-01', '16:45:00'),
+(37, 113, 2, 'ρ [cliente, carro] (π clientes.nome, carros.nome (σ carros.id_carro = compras.id_carro ^ compras.id_cliente = clientes.id_cliente (carros X compras X clientes)))', 'SELECT `clientes`.`nome` AS `cliente`,`carros`.`nome` AS `carro` FROM `carros`,`compras`,`clientes` WHERE `carros`.`id_carro` = `compras`.`id_carro` AND `compras`.`id_cliente` = `clientes`.`id_cliente`', 1, '2017-11-01', '16:45:00'),
+(41, 111, 4, 'clientes', 'SELECT * FROM `clientes`', 5, '2017-11-01', '17:37:00'),
+(42, 112, 4, 'clientes ⨝ (clientes.id_cliente = compras.id_cliente) compras', 'SELECT * FROM `clientes` INNER JOIN `compras` ON `clientes`.`id_cliente` = `compras`.`id_cliente`', 1, '2017-11-01', '17:37:00'),
+(43, 113, 4, 'ρ [cliente, carro] (π clientes.nome, carros.nome (σ carros.id_carro = compras.id_carro ^ compras.id_cliente = clientes.id_cliente (carros X compras X clientes)))', 'SELECT `clientes`.`nome` AS `cliente`,`carros`.`nome` AS `carro` FROM `carros`,`compras`,`clientes` WHERE `carros`.`id_carro` = `compras`.`id_carro` AND `compras`.`id_cliente` = `clientes`.`id_cliente`', 2, '2017-11-01', '17:37:00');
 
 -- --------------------------------------------------------
 
@@ -133,15 +141,19 @@ CREATE TABLE `usuario_turma` (
 --
 
 INSERT INTO `usuario_turma` (`id`, `id_usuario`, `id_turma`) VALUES
-(13, 9, 8),
-(14, 5, 8),
 (23, 2, 6),
 (24, 4, 6),
 (25, 5, 6),
 (44, 3, 1),
 (45, 7, 1),
 (95, 2, 7),
-(96, 5, 7);
+(96, 5, 7),
+(97, 9, 8),
+(98, 3, 8),
+(99, 2, 8),
+(100, 4, 8),
+(101, 6, 8),
+(102, 5, 8);
 
 -- --------------------------------------------------------
 
@@ -197,7 +209,8 @@ ALTER TABLE `listas`
 --
 ALTER TABLE `respostas`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `exercicio` (`exercicio`);
+  ADD KEY `exercicio` (`exercicio`),
+  ADD KEY `aluno` (`aluno`);
 
 --
 -- Indexes for table `turmas`
@@ -228,32 +241,32 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT for table `exercicios`
 --
 ALTER TABLE `exercicios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=127;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=122;
 --
 -- AUTO_INCREMENT for table `listas`
 --
 ALTER TABLE `listas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `respostas`
 --
 ALTER TABLE `respostas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 --
 -- AUTO_INCREMENT for table `turmas`
 --
 ALTER TABLE `turmas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `usuario_turma`
 --
 ALTER TABLE `usuario_turma`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
 --
 -- AUTO_INCREMENT for table `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- Constraints for dumped tables
 --
@@ -274,7 +287,8 @@ ALTER TABLE `listas`
 -- Limitadores para a tabela `respostas`
 --
 ALTER TABLE `respostas`
-  ADD CONSTRAINT `respostas_ibfk_1` FOREIGN KEY (`exercicio`) REFERENCES `exercicios` (`id`);
+  ADD CONSTRAINT `respostas_ibfk_1` FOREIGN KEY (`exercicio`) REFERENCES `exercicios` (`id`),
+  ADD CONSTRAINT `respostas_ibfk_2` FOREIGN KEY (`aluno`) REFERENCES `usuarios` (`id`);
 
 --
 -- Limitadores para a tabela `usuario_turma`
