@@ -7,8 +7,6 @@
  */
 class Turma_Model extends MY_Model {
     
-    protected $system = true;
-    
     public function get_where($where = null, $order_by = null, $limit = null, $offset = null, $return_as_object = false) {
         $this->db->select("t.id, t.descricao, case when t.ativa then 'Sim' else 'Não' end as ativa, u.nome as usuario");
         $this->db->from($this->get_table() . ' t');

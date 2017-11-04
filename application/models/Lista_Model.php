@@ -7,8 +7,6 @@
  */
 class Lista_Model extends MY_Model {
     
-    protected $system = true;
-    
     public function get_listas_by_aluno($where = null, $order_by = null, $limit = null, $offset = null) {
         $this->db->select(array(
             'l.*',

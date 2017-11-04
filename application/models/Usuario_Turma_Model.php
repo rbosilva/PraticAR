@@ -7,8 +7,6 @@
  */
 class Usuario_Turma_Model extends MY_Model {
     
-    protected $system = true;
-    
     public function __construct() {
         $this->set_table('usuario_turma');
         parent::__construct();

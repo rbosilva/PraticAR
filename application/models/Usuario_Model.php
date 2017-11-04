@@ -7,8 +7,6 @@
  */
 class Usuario_Model extends MY_Model {
     
-    protected $system = true;
-    
     public function __construct() {
         parent::__construct();
         $this->set_rules(array(

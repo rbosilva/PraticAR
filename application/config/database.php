@@ -79,6 +79,27 @@ $db['default'] = array(
     'hostname' => 'localhost',
     'username' => 'root',
     'password' => '',
+    'database' => 'aluno_praticar',
+    'dbdriver' => 'mysqli',
+    'dbprefix' => '',
+    'pconnect' => FALSE,
+    'db_debug' => (ENVIRONMENT !== 'production'),
+    'cache_on' => FALSE,
+    'cachedir' => '',
+    'char_set' => 'utf8',
+    'dbcollat' => 'utf8_general_ci',
+    'swap_pre' => '',
+    'encrypt' => FALSE,
+    'compress' => FALSE,
+    'stricton' => FALSE,
+    'save_queries' => TRUE
+);
+
+$db['exercicios'] = array(
+    'dsn' => '',
+    'hostname' => 'localhost',
+    'username' => 'root',
+    'password' => '',
     'database' => 'aluno_praticar_exercicios',
     'dbdriver' => 'mysqli',
     'dbprefix' => '',

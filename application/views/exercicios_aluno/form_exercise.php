@@ -7,7 +7,7 @@
     <div class="form-group">
         <label for="descricao<?php echo $id; ?>" class="control-label col-lg-2">Descrição do exercício</label>
         <div class="col-lg-10">
-            <textarea class="form-control" rows="2" style="resize: none; margin-top: 4px;" disabled><?php echo $descricao; ?></textarea>
+            <textarea class="form-control" rows="2" style="resize: none; margin-top: 4px;" readonly><?php echo $descricao; ?></textarea>
         </div>
     </div>
     <div class="form-group">

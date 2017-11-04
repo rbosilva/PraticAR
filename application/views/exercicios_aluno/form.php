@@ -28,12 +28,12 @@
                         foreach ($exercicios as $exercicio) {
                             $exercicio['sequencia'] = $sequencia++;
                             if (isset($respostas[$exercicio['id']]['resposta'])) {
-                                $exercicio['resposta'] = $respostas[$exercicio['id']]['resposta'];
+                                $exercicio['resposta'] = html_entity_decode($respostas[$exercicio['id']]['resposta']);
                             } else {
                                 $exercicio['resposta'] = '';
                             }
                             if (isset($respostas[$exercicio['id']]['resposta'])) {
-                                $exercicio['resposta_sql'] = $respostas[$exercicio['id']]['resposta_sql'];
+                                $exercicio['resposta_sql'] = html_entity_decode($respostas[$exercicio['id']]['resposta_sql']);
                             } else {
                                 $exercicio['resposta_sql'] = '';
                             }

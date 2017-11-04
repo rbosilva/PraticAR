@@ -12,11 +12,7 @@ class MY_Model extends CI_Model {
     
     public function __construct() {
         parent::__construct();
-        if ($this->system) {
-            $this->db->db_select('aluno_praticar');
-        } else {
-            $this->db->db_select('aluno_praticar_exercicios');
-        }
+        $this->db = $this->load->database('default', true);
         // Caso $this->table não esteja setada, usa o nome da classe
         if (empty($this->table)) {
             $this->table = strtolower(preg_replace('/(_model)$/i', 's', get_class($this)));

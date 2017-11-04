@@ -133,7 +133,7 @@ class Exercicios_aluno extends MY_Controller {
     public function compare_queries() {
         $datapost = $this->input->post(null, true);
         $id_exercicio = $datapost['exercicio'];
-        $sql_aluno = $datapost['sql'];
+        $sql_aluno = html_entity_decode($datapost['sql']);
         $tentativas = (integer) $datapost['tentativas'];
         
         $exercicio = $this->exercicio->get($id_exercicio);
@@ -167,7 +167,7 @@ class Exercicios_aluno extends MY_Controller {
         } else {
             $tentativas++;
             $this->response('error', array(
-                'msg' => 'Consulta inválida.',
+                'msg' => $resultado_aluno,
                 'tentativas' => $tentativas
             ));
         }

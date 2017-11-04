@@ -7,8 +7,6 @@
  */
 class Resposta_Model extends MY_Model {
     
-    protected $system = true;
-    
     public function get_answers_by_aluno($lista, $aluno) {
         $this->db->select(array(
             '(@row_number := @row_number + 1) as sequencia',
