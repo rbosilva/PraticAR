@@ -151,7 +151,7 @@ class Exercicios_aluno extends MY_Controller {
             $count_resultado_professor = count($resultado_professor);
             if ($count_resultado_aluno == $count_resultado_professor) {
                 foreach ($resultado_aluno as $key => $value) {
-                    $diferenças_valores = array_diff_assoc($value, $resultado_professor[$key]);
+                    $diferenças_valores = array_diff_assoc($resultado_professor[$key], $value);
                     if (count($diferenças_valores) > 0) {
                         $tentativas++;
                         $this->response('error', array(
