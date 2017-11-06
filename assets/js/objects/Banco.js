@@ -15,11 +15,11 @@ var Banco = {
                 }
             });
             $('#executar').click(function () {
+                $('#resultados').removeClass('panel-primary panel-danger').html('');
                 if ($('#consulta').val().trim()) {
                     $.post(self.url('execute'), {
                         sql: $('#consulta').val()
                     }, function (json) {
-                        $('#resultados').removeClass('panel-primary panel-danger');
                         if (json.info === 1) {
                             $('#resultados').html(json.resultados).addClass('panel-primary');
                             $('#tab-tabelas').html(json.view);

@@ -39,7 +39,11 @@ class Banco extends MY_Controller {
             ));
         } else {
             $error = $this->db->error();
-            $this->response('error', $error['message']);
+            $message = str_replace('aluno_praticar_exercicios.', '', $error['message']);
+            if (trim($message) === '') {
+                $message = 'Ocorreu um erro durante a execução do seu comando SQL.';
+            }
+            $this->response('error', $message);
         }
     }
     
@@ -58,7 +62,8 @@ class Banco extends MY_Controller {
             $this->response();
         } else {
             $error = $this->db->error();
-            $this->response('error', $error['message']);
+            $message = str_replace('aluno_praticar_exercicios.', '', $error['message']);
+            $this->response('error', $message);
         }
     }
 

@@ -116,7 +116,10 @@ class Exercicios_aluno extends MY_Controller {
                 $this->load->view('exercicios_aluno/query_modal', array('view' => $view));
             } else {
                 $error = $this->db->error();
-                $message = str_replace("Table 'aluno_praticar_exercicios.", "Table '", $error['message']);
+                $message = str_replace('aluno_praticar_exercicios.', '', $error['message']);
+                if (trim($message) === '') {
+                    $message = 'Ocorreu um erro durante a execução do seu comando SQL.';
+                }
                 $this->load->view('exercicios_aluno/query_modal', array('view' => '<b>' . $message . '</b>'));
             }
         } else {
@@ -147,8 +150,8 @@ class Exercicios_aluno extends MY_Controller {
             $count_resultado_aluno = count($resultado_aluno);
             $count_resultado_professor = count($resultado_professor);
             if ($count_resultado_aluno == $count_resultado_professor) {
-                foreach ($resultado_professor as $key => $value) {
-                    $diferenças_valores = array_diff_assoc($value, $resultado_aluno[$key]);
+                foreach ($resultado_aluno as $key => $value) {
+                    $diferenças_valores = array_diff_assoc($value, $resultado_professor[$key]);
                     if (count($diferenças_valores) > 0) {
                         $tentativas++;
                         $this->response('error', array(
@@ -165,9 +168,13 @@ class Exercicios_aluno extends MY_Controller {
                 ));
             }
         } else {
-            $tentativas++;
+            $error = $this->db->error();
+            $message = str_replace('aluno_praticar_exercicios.', '', $error['message']);
+            if (trim($message) === '') {
+                $message = 'Ocorreu um erro durante a execução do seu comando SQL.';
+            }
             $this->response('error', array(
-                'msg' => $resultado_aluno,
+                'msg' => $message,
                 'tentativas' => $tentativas
             ));
         }

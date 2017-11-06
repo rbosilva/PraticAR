@@ -16,12 +16,7 @@ class Banco_Model extends CI_Model {
         if (!empty($sql)) {
             $query = $this->db->query($sql);
             if (is_bool($query)) {
-                if ($query) {
-                    return $query;
-                }
-                $error = $this->db->error();
-                $message = str_replace("Table 'aluno_praticar_exercicios.", "Table '", $error['message']);
-                return $message;
+                return $query;
             } else {
                 return $query->result_array();
             }

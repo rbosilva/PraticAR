@@ -224,7 +224,10 @@ class Cadastro_exercicios extends MY_Controller {
                 $this->response('success', array('results' => $view));
             } else {
                 $error = $this->db->error();
-                $message = str_replace("Table 'aluno_praticar_exercicios.", "Table '", $error['message']);
+                $message = str_replace('aluno_praticar_exercicios.', '', $error['message']);
+                if (trim($message) === '') {
+                    $message = 'Ocorreu um erro durante a execução do seu comando SQL.';
+                }
                 $this->response('error', $message);
             }
         }
