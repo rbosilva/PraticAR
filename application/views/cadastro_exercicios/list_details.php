@@ -15,7 +15,7 @@
                 <button class="btn btn-outline btn-primary voltar"><i class="fa fa-arrow-left"></i> <span>Voltar</span></button>
             </div>
             <div class="panel-body">
-                <div  style="height: 450px; width: 100%; overflow-y: auto;">
+                <div  style="height: 550px; width: 100%; overflow-y: auto;">
                     <table class="table table-striped table-bordered table-hover no-datatables">
                         <thead>
                             <tr>

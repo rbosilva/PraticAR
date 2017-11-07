@@ -45,7 +45,7 @@
                             <button type="button" class="btn btn-outline btn-danger cancelar"><i class="fa fa-ban"></i> <span>Cancelar</span></button>
                             <button type="button" class="btn btn-outline btn-primary adicionar-exercicio pull-right"><i class="fa fa-plus"></i> <span>Novo Exercício</span></button>
                         </div>
-                        <div style="width: 100%; height: 250px; overflow-y: auto; float: left; margin-top: 10px;">
+                        <div style="width: 100%; height: 350px; overflow-y: auto; float: left; margin-top: 10px;">
                             <table class="table table-striped table-bordered table-hover no-datatables">
                                 <thead>
                                     <tr>

@@ -29,7 +29,7 @@
                         <div class="form-group">
                             <label for="descricao" class="control-label col-lg-2">Descrição</label>
                             <div class="col-lg-10">
-                                <textarea type="text" id="descricao" name="exercicio[descricao]" class="form-control" rows="2"
+                                <textarea type="text" id="descricao" name="exercicio[descricao]" class="form-control" rows="4"
                                     placeholder="Digite aqui o que o aluno deve fazer neste exercício"><?php echo evaluate($exercicio['descricao']); ?></textarea>
                             </div>
                         </div>
@@ -44,11 +44,11 @@
                                 $this->load->view('generic/ra/operators');
                                 ?>
                                 <br>
-                                <textarea id="resposta" name="exercicio[resposta]" class="form-control" rows="2"
+                                <textarea id="resposta" name="exercicio[resposta]" class="form-control" rows="4"
                                     style="resize: none; margin-top: 4px;" spellcheck="false"
                                     placeholder="Digite aqui a expressão correspondente a resposta deste exercício"><?php echo evaluate($exercicio['resposta']); ?></textarea>
                                 <label for="sql" class="control-label">Expressão em SQL</label>
-                                <textarea tabindex="-1" id="sql" class="form-control" rows="2" style="resize: none; margin-top: 4px;"
+                                <textarea tabindex="-1" id="sql" class="form-control" rows="4" style="resize: none; margin-top: 4px;"
                                     spellcheck="false" placeholder='Digite uma consulta em "Resposta"' readonly><?php echo evaluate($exercicio['resposta_sql']); ?></textarea>
                             </div>
                         </div>
@@ -58,12 +58,12 @@
                             <button type="button" class="btn btn-outline btn-default pull-right visualizar-consulta"><i class="fa fa-play"></i> <span>Visualizar consulta</span></button>
                         </div>
                     </div>
-                    <div role="tabpanel" class="tab-pane" id="tab-tabelas" style="height: 350px; overflow: auto;">
+                    <div role="tabpanel" class="tab-pane" id="tab-tabelas" style="height: 450px; overflow: auto;">
                         <?php
                         $this->load->view('generic/tables', array('tables' => $tables));
                         ?>
                     </div>
-                    <div role="tabpanel" class="tab-pane" id="tab-resultados" style="height: 350px; overflow: auto;">
+                    <div role="tabpanel" class="tab-pane" id="tab-resultados" style="height: 450px; overflow: auto;">
                         Execute uma consulta para checar os resultados!
                     </div>
                 </div>
