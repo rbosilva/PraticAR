@@ -8,8 +8,6 @@ class MY_Model extends CI_Model {
     private $index;
     private $rules;
     
-    protected $system = false;
-    
     public function __construct() {
         parent::__construct();
         $this->db = $this->load->database('default', true);

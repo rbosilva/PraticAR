@@ -2,7 +2,7 @@
     <nav class="breadcrumb">
         <a href="<?php echo base_url(); ?>" title="Ir para o Início"><i class="fa fa-home"></i> Início</a>
         <a href="" title="Ir para Questionários" data-object="exercicios_aluno">Questionários</a>
-        <span class="active">Responder</span>
+        <span class="active">Responder Questionário</span>
     </nav>
     <div class="row">
         <div class="col-lg-12">
