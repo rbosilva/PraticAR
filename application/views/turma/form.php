@@ -15,7 +15,7 @@
                     <div class="form-group">
                         <label for="descricao" class="control-label col-lg-2">Descrição</label>
                         <div class="col-lg-10">
-                            <input type="text" id="descricao" name="turma[descricao]" class="form-control"
+                            <input type="text" id="descricao" name="turma[descricao]" class="form-control" autocomplete="off"
                                 value="<?php echo evaluate($descricao); ?>">
                         </div>
                     </div>

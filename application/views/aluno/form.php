@@ -15,13 +15,15 @@
                     <div class="form-group">
                         <label for="nome" class="control-label col-lg-2">Nome</label>
                         <div class="col-lg-10">
-                            <input type="text" id="nome" name="nome" class="form-control" value="<?php echo evaluate($nome); ?>">
+                            <input type="text" id="nome" name="nome" class="form-control" autocomplete="off"
+                                value="<?php echo evaluate($nome); ?>">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="login" class="control-label col-lg-2">Login</label>
                         <div class="col-lg-10">
-                            <input type="text" id="login" name="login" class="form-control" value="<?php echo evaluate($login); ?>">
+                            <input type="text" id="login" name="login" class="form-control" autocomplete="off"
+                                value="<?php echo evaluate($login); ?>">
                         </div>
                     </div>
                     <div class="form-group">

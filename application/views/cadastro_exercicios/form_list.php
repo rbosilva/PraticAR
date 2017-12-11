@@ -21,8 +21,9 @@
                         <div class="form-group">
                             <label for="titulo" class="control-label col-lg-2">Título</label>
                             <div class="col-lg-10">
-                                <input type="text" id="titulo" name="lista[titulo]" class="form-control"
-                                    placeholder="Digite aqui um título para esta lista de exercícios" value="<?php echo evaluate($lista['titulo']); ?>">
+                                <input type="text" id="titulo" name="lista[titulo]" class="form-control" autocomplete="off"
+                                    placeholder="Digite aqui um título para esta lista de exercícios"
+                                    value="<?php echo evaluate($lista['titulo']); ?>">
                             </div>
                         </div>
                         <div class="form-group">
